@@ -6,7 +6,7 @@ SmartMirror is an intelligent home application designed to provide information o
 mirror's surface, this can be achieved by placing a screen behind a two way mirror.
 Currently working under windows, will be ported to work with raspberry pi using 
 it's camera module.
-Documentation can be found here: [**docs**](https://bbialoskorski.github.io/SmartMirror/).
+Documentation can be found here: [**docs**](https://bbialoskorski.github.io/SmartMirror/index.html).
 
 Features:
 ---------

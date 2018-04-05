@@ -1,0 +1,170 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>mirrordisplay &#8212; SmartMirror 1.0 documentation</title>
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">SmartMirror 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for mirrordisplay</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">tkinter</span> <span class="k">as</span> <span class="nn">tk</span>
+
+<span class="kn">import</span> <span class="nn">clock</span>
+<span class="kn">import</span> <span class="nn">weather</span>
+<span class="kn">import</span> <span class="nn">greeter</span>
+<span class="kn">import</span> <span class="nn">smartcalendar</span>
+
+
+<div class="viewcode-block" id="MirrorDisplay"><a class="viewcode-back" href="../code.html#mirrordisplay.MirrorDisplay">[docs]</a><span class="k">class</span> <span class="nc">MirrorDisplay</span><span class="p">(</span><span class="n">tk</span><span class="o">.</span><span class="n">Frame</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Creates and manages all information displaying modules.</span>
+
+<span class="sd">    MirrorDisplay class inherits from tkinter&#39;s Frame class. It is</span>
+<span class="sd">    a geometry master and controller for all frames stored inside.</span>
+<span class="sd">    Each frame stored here has a role of displaying information to</span>
+<span class="sd">    user.</span>
+<span class="sd">    Once this frame is displayed application can be closed with Escape</span>
+<span class="sd">    button.</span>
+
+<span class="sd">    Every frame stored directly in MirrorDisplay should inherit from</span>
+<span class="sd">    plugin abstract class thus implementing one specific public</span>
+<span class="sd">    function: &#39;edit_mode&#39;.</span>
+<span class="sd">    This function should enable user to change location of module</span>
+<span class="sd">    using mouse input, concretely mouse motion with left mouse button</span>
+<span class="sd">    pressed (&lt;B1-Motion&gt;). Yellow background highlight should be</span>
+<span class="sd">    displayed around each frame in edit state.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">master</span><span class="p">,</span> <span class="n">controller</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Creates MirrorDisplay frame and places all plugin frames inside.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            master: parent of this frame, usually direct container.</span>
+<span class="sd">            controller: main window class providing public functions</span>
+<span class="sd">                for control of the application from this frame&#39;s</span>
+<span class="sd">                level.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tk</span><span class="o">.</span><span class="n">Frame</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">master</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">1080</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">2560</span><span class="p">,</span> <span class="n">cursor</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">bg</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_controller</span> <span class="o">=</span> <span class="n">controller</span>
+
+        <span class="c1"># Binding keyboard event to application&#39;s main window.</span>
+        <span class="n">controller</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s1">&#39;&lt;Tab&gt;&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_edit_mode</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_framename_coords_dict</span> <span class="o">=</span> <span class="n">controller</span><span class="o">.</span><span class="n">get_framename_coords_dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_window_in_edit_mode</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="c1"># Initializing frames passing self as a master and controller</span>
+        <span class="c1"># into the init functions.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_clock</span> <span class="o">=</span> <span class="n">clock</span><span class="o">.</span><span class="n">Clock</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">controller</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_weather</span> <span class="o">=</span> <span class="n">weather</span><span class="o">.</span><span class="n">Weather</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">controller</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_greeter</span> <span class="o">=</span> <span class="n">greeter</span><span class="o">.</span><span class="n">Greeter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">controller</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_smartcalendar</span> <span class="o">=</span> <span class="n">smartcalendar</span><span class="o">.</span><span class="n">Calendar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">controller</span><span class="p">)</span>
+
+        <span class="c1"># Placing frames on the main frame using place geometry</span>
+        <span class="c1"># manager (module&#39;s frames should be placed only with place</span>
+        <span class="c1"># manager).</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_place_frames</span><span class="p">()</span>
+
+        <span class="c1"># Setting keyboard focus so we can use keyboard bindings</span>
+        <span class="c1"># without clicking on the window first.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">focus_set</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_place_frames</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Places coordinates in place geometry manager.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_clock</span><span class="o">.</span><span class="n">place</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_framename_coords_dict</span><span class="p">[</span><span class="s1">&#39;Clock&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+                          <span class="n">y</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_framename_coords_dict</span><span class="p">[</span><span class="s1">&#39;Clock&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_weather</span><span class="o">.</span><span class="n">place</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_framename_coords_dict</span><span class="p">[</span><span class="s1">&#39;Weather&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+                            <span class="n">y</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_framename_coords_dict</span><span class="p">[</span><span class="s1">&#39;Weather&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_greeter</span><span class="o">.</span><span class="n">place</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_framename_coords_dict</span><span class="p">[</span><span class="s1">&#39;Greeter&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+                            <span class="n">y</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_framename_coords_dict</span><span class="p">[</span><span class="s1">&#39;Greeter&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_smartcalendar</span><span class="o">.</span><span class="n">place</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_framename_coords_dict</span><span class="p">[</span><span class="s1">&#39;Calendar&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+                                  <span class="n">y</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_framename_coords_dict</span><span class="p">[</span><span class="s1">&#39;Calendar&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="nf">_edit_mode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Switches edit_mode on/off.</span>
+
+<span class="sd">        When switching edit mode on/off this function makes mouse</span>
+<span class="sd">        cursor visible/invisible on the main frame. In either case</span>
+<span class="sd">        edit_mode function is invoked for every displayable element</span>
+<span class="sd">        stored inside a surface frame. Each module should individually</span>
+<span class="sd">        handle the state in which it&#39;s currently in and appropriate</span>
+<span class="sd">        state transition once edit_mode function is called again.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_window_in_edit_mode</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_window_in_edit_mode</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">cursor</span><span class="o">=</span><span class="s1">&#39;arrow&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_window_in_edit_mode</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">cursor</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">frame</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">winfo_children</span><span class="p">():</span>
+            <span class="n">frame</span><span class="o">.</span><span class="n">edit_mode</span><span class="p">()</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">SmartMirror 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Bartosz Bialoskorski.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.2.
+    </div>
+  </body>
+</html>

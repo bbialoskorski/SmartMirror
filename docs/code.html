@@ -1,0 +1,755 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>SmartMirror’s Documentation &#8212; SmartMirror 1.0 documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Welcome to SmartMirror’s documentation" href="index.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to SmartMirror’s documentation"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">SmartMirror 1.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-calendarapi">
+<span id="smartmirror-s-documentation"></span><h1>SmartMirror’s Documentation<a class="headerlink" href="#module-calendarapi" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="calendarapi.CalendarApiWrapper">
+<em class="property">class </em><code class="descclassname">calendarapi.</code><code class="descname">CalendarApiWrapper</code><a class="reference internal" href="_modules/calendarapi.html#CalendarApiWrapper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calendarapi.CalendarApiWrapper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Google Calendar API wrapper for performing asynchronous calls.</p>
+<dl class="method">
+<dt id="calendarapi.CalendarApiWrapper.call_calendar_api">
+<code class="descname">call_calendar_api</code><span class="sig-paren">(</span><em>service</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/calendarapi.html#CalendarApiWrapper.call_calendar_api"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calendarapi.CalendarApiWrapper.call_calendar_api" title="Permalink to this definition">¶</a></dt>
+<dd><p>Starts asynchronous api call.</p>
+<p>Only one request can be processed at the same time for each
+instance of CalendarApiWrapper.
+To obtain results get_upcoming_events() has to be called.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>service</strong> – googleapiclient discovery’s service object built
+for calendar v3 api with which the call will be made.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">0 if api was successfully called or 1 if api call is
+already processing</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code> – if impossible behaviour occurred.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calendarapi.CalendarApiWrapper.get_upcoming_events">
+<code class="descname">get_upcoming_events</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/calendarapi.html#CalendarApiWrapper.get_upcoming_events"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calendarapi.CalendarApiWrapper.get_upcoming_events" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks availability and returns api call results.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">-1 if api’s function was not called, 0 if api call
+finished and returned results or 1 if api call is being
+processed.<p>upcoming_events: list of upcoming events.</p>
+<p>events_colours: dictionary containing calendar’s colours
+data.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="calendarapi.calendar_api_call">
+<code class="descclassname">calendarapi.</code><code class="descname">calendar_api_call</code><span class="sig-paren">(</span><em>input_queue</em>, <em>output_queue</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/calendarapi.html#calendar_api_call"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calendarapi.calendar_api_call" title="Permalink to this definition">¶</a></dt>
+<dd><p>Callback function calling calendar api for upcoming events.</p>
+<p>Input should be added to the queue before this callback starts
+execution.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>input_queue</strong> – queue for passing input. This function expects to
+get googleapiclient discovery’s service object from this
+queue.</li>
+<li><strong>output_queue</strong> – queue for passing call’s results. Results are
+returned as a single 2 element tuple. First element is a
+list of upcoming calendar events, the second one is a dict
+containing calendar’s color definitions.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code> – if no arguments were passed through input queue.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<span class="target" id="module-calendarauth"></span><dl class="class">
+<dt id="calendarauth.CalendarAuthenticator">
+<em class="property">class </em><code class="descclassname">calendarauth.</code><code class="descname">CalendarAuthenticator</code><a class="reference internal" href="_modules/calendarauth.html#CalendarAuthenticator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calendarauth.CalendarAuthenticator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrapper for asynchronous authentication with OAuth 2.0.</p>
+<p>CalendarAuthenticator uses multiprocessing module to handle
+asynchronous google calendar api authentication with readonly
+permissions. Authentication is started by calling
+start_authentication() and resulting credentials can be collected
+via get_credentials().
+Only one authentication can be performed at the same time for
+each instance of CalendarAuthenticator.
+During authentication process web browser is opened on google
+log in page through which user has to authenticate and confirm
+that he’s giving this application permissions to access calendar
+information.</p>
+<dl class="method">
+<dt id="calendarauth.CalendarAuthenticator.cancel_authentication">
+<code class="descname">cancel_authentication</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/calendarauth.html#CalendarAuthenticator.cancel_authentication"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calendarauth.CalendarAuthenticator.cancel_authentication" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stops the authentication process.</p>
+<p>This function stops data collector process.
+Even if process was not running this function will attempt to
+join it.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">-1 if authentication process wasn’t running or 0 if
+authentication was ongoing and successfully stopped.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calendarauth.CalendarAuthenticator.get_credentials">
+<code class="descname">get_credentials</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/calendarauth.html#CalendarAuthenticator.get_credentials"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calendarauth.CalendarAuthenticator.get_credentials" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return credentials and according return code.</p>
+<p>This function checks whether user completed authentication and
+returns credentials.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">-1 if authentication process was not started, 0 if
+authentication was completed or 1 if authentication is
+still ongoing.<p>credentials: OAuth 2.0 credentials required to call
+calendar api.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="calendarauth.CalendarAuthenticator.start_authentication">
+<code class="descname">start_authentication</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/calendarauth.html#CalendarAuthenticator.start_authentication"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calendarauth.CalendarAuthenticator.start_authentication" title="Permalink to this definition">¶</a></dt>
+<dd><p>Starts authentication process.</p>
+<p>Only one authentication can be performed at the same time for
+each instance of CalendarAuthenticator.
+To obtain credentials get_credentials() has to be called.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">0 if authentication process was successfully started or 1
+if authentication process was already running.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="calendarauth.get_credentials">
+<code class="descclassname">calendarauth.</code><code class="descname">get_credentials</code><span class="sig-paren">(</span><em>output_queue</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/calendarauth.html#get_credentials"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calendarauth.get_credentials" title="Permalink to this definition">¶</a></dt>
+<dd><p>Executes authentication flow.</p>
+<p>This function executes OAuth 2.0 authentication flow for installed
+applications. Local server is started and web browser opens with
+google authentication page.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>output_queue</strong> – queue through which credentials will be returned.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<span class="target" id="module-calendarloginpage"></span><dl class="class">
+<dt id="calendarloginpage.CalendarLoginPage">
+<em class="property">class </em><code class="descclassname">calendarloginpage.</code><code class="descname">CalendarLoginPage</code><span class="sig-paren">(</span><em>master</em>, <em>controller</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/calendarloginpage.html#CalendarLoginPage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#calendarloginpage.CalendarLoginPage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Menu page for logging into google calendar.</p>
+<p>CalendarLoginPage inherits from tkinter’s frame page. It’s purpose
+is to provide end user with interface to authenticate and authorize
+google calendar access.</p>
+</dd></dl>
+
+<span class="target" id="module-clock"></span><dl class="class">
+<dt id="clock.Clock">
+<em class="property">class </em><code class="descclassname">clock.</code><code class="descname">Clock</code><span class="sig-paren">(</span><em>master</em>, <em>controller</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/clock.html#Clock"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#clock.Clock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Displays time and date.</p>
+<p>Clock class inherits from tkinter’s Frame class and abstract
+Plugin class.</p>
+<dl class="method">
+<dt id="clock.Clock.edit_mode">
+<code class="descname">edit_mode</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/clock.html#Clock.edit_mode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#clock.Clock.edit_mode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Switches edit_mode on/off.</p>
+<p>When switching edit mode on this function first makes mouse
+cursor visible when on top of this module and makes background
+highlight visible by changing it’s color to yellow, then
+appropriate event handlers are bind to left mouse button click
+(&lt;Button-1&gt;) and mouse motion with left mouse button pressed
+(&lt;B1-Motion&gt;) for every component.</p>
+<p>When switching edit mode off cursor is first hidden, highlight
+made invisible by changing it’s color to black, then mouse
+input event handlers are unbound from all components.</p>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-facerecognition"></span><dl class="function">
+<dt id="facerecognition.face_recognition">
+<code class="descclassname">facerecognition.</code><code class="descname">face_recognition</code><span class="sig-paren">(</span><em>running_flag</em>, <em>recognized_face</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/facerecognition.html#face_recognition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#facerecognition.face_recognition" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs face detection and recognition.</p>
+<p>This function is supposed to be invoked as a callback for separate
+process.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>running_flag</strong> – multiprocessing.Event flag controlling the while
+loop. When set to false this function will exit the loop
+and clean up before finishing.</li>
+<li><strong>recognized_face</strong> – multiprocessing.Value(ctypes.c_int) variable
+for storing id of recognized face.
+This variable is set to -1 if face was not detected, 0 if
+face was detected but not recognized or id if face was
+detected and recognized.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code> – if either camera was not detected or cascade file
+was not found.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<span class="target" id="module-facerecognizer"></span><dl class="class">
+<dt id="facerecognizer.FaceRecognizer">
+<em class="property">class </em><code class="descclassname">facerecognizer.</code><code class="descname">FaceRecognizer</code><a class="reference internal" href="_modules/facerecognizer.html#FaceRecognizer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#facerecognizer.FaceRecognizer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Manages asynchronous face detection and recognition.</p>
+<p>This class hides multiprocessing mechanism details from the
+outside world.</p>
+<dl class="method">
+<dt id="facerecognizer.FaceRecognizer.get_recognized_face">
+<code class="descname">get_recognized_face</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/facerecognizer.html#FaceRecognizer.get_recognized_face"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#facerecognizer.FaceRecognizer.get_recognized_face" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return detection/recognition results.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">0 if face was detected but not recognized, 1 if no face
+was detected or id if face was detected and recognized.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="facerecognizer.FaceRecognizer.is_running">
+<code class="descname">is_running</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/facerecognizer.html#FaceRecognizer.is_running"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#facerecognizer.FaceRecognizer.is_running" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks whether recognizer process is running.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">bool value.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="facerecognizer.FaceRecognizer.stop_face_recognition">
+<code class="descname">stop_face_recognition</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/facerecognizer.html#FaceRecognizer.stop_face_recognition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#facerecognizer.FaceRecognizer.stop_face_recognition" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finishes face detection and recognition process.</p>
+<p>This function MUST BE called before exiting application or
+recognition process will become orphan.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">0 if process was running and successfully stopped or 1 if
+process was not running.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-greeter"></span><dl class="class">
+<dt id="greeter.Greeter">
+<em class="property">class </em><code class="descclassname">greeter.</code><code class="descname">Greeter</code><span class="sig-paren">(</span><em>master</em>, <em>controller</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/greeter.html#Greeter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greeter.Greeter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Greeter module class.</p>
+<p>Greeter class inherits from tkinter’s Frame class and abstract
+Plugin class. This modules displays greetings message when face is
+detected and recognized.</p>
+<dl class="method">
+<dt id="greeter.Greeter.edit_mode">
+<code class="descname">edit_mode</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/greeter.html#Greeter.edit_mode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#greeter.Greeter.edit_mode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Switches edit_mode on/off.</p>
+<p>When switching edit mode on this function first makes mouse
+cursor visible while hovering on top of this module and makes
+background highlight visible by changing it’s color to yellow,
+then appropriate event handlers are bind to left mouse button
+click (&lt;Button-1&gt;) and mouse motion with left mouse button
+pressed (&lt;B1-Motion&gt;) for every component.</p>
+<p>When switching edit mode off cursor is first hidden, highlight
+made invisible by changing it’s color to black, then mouse
+input event handlers are unbound from all components.</p>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-menu"></span><dl class="class">
+<dt id="menu.Menu">
+<em class="property">class </em><code class="descclassname">menu.</code><code class="descname">Menu</code><span class="sig-paren">(</span><em>master</em>, <em>controller</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/menu.html#Menu"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#menu.Menu" title="Permalink to this definition">¶</a></dt>
+<dd><p>Application menu.</p>
+<p>Menu class inherits from tkinter’s Frame class. It acts as a
+controller and container for all options pages.</p>
+<dl class="method">
+<dt id="menu.Menu.show_frame">
+<code class="descname">show_frame</code><span class="sig-paren">(</span><em>frame_key</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/menu.html#Menu.show_frame"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#menu.Menu.show_frame" title="Permalink to this definition">¶</a></dt>
+<dd><p>Brings frame to the top and sends it &lt;&lt;FrameShown&gt;&gt; event.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>frame_key</strong> – dictionary key of frame that we want to show.
+Frame’s key is it’s class’ name.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="menu.StartPage">
+<em class="property">class </em><code class="descclassname">menu.</code><code class="descname">StartPage</code><span class="sig-paren">(</span><em>master</em>, <em>controller</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/menu.html#StartPage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#menu.StartPage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Menu’s ‘base’ page.</p>
+<p>StartPage inherit’s from tkinter’s frame class. It acts as a
+container of buttons used to navigate to different menu pages.</p>
+</dd></dl>
+
+<span class="target" id="module-mirrordisplay"></span><dl class="class">
+<dt id="mirrordisplay.MirrorDisplay">
+<em class="property">class </em><code class="descclassname">mirrordisplay.</code><code class="descname">MirrorDisplay</code><span class="sig-paren">(</span><em>master</em>, <em>controller</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/mirrordisplay.html#MirrorDisplay"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mirrordisplay.MirrorDisplay" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates and manages all information displaying modules.</p>
+<p>MirrorDisplay class inherits from tkinter’s Frame class. It is
+a geometry master and controller for all frames stored inside.
+Each frame stored here has a role of displaying information to
+user.
+Once this frame is displayed application can be closed with Escape
+button.</p>
+<p>Every frame stored directly in MirrorDisplay should inherit from
+plugin abstract class thus implementing one specific public
+function: ‘edit_mode’.
+This function should enable user to change location of module
+using mouse input, concretely mouse motion with left mouse button
+pressed (&lt;B1-Motion&gt;). Yellow background highlight should be
+displayed around each frame in edit state.</p>
+</dd></dl>
+
+<span class="target" id="module-plugin"></span><dl class="class">
+<dt id="plugin.Plugin">
+<em class="property">class </em><code class="descclassname">plugin.</code><code class="descname">Plugin</code><a class="reference internal" href="_modules/plugin.html#Plugin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugin.Plugin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstract class which frames stored in MirrorDisplay class
+should inherit from.</p>
+<dl class="method">
+<dt id="plugin.Plugin.edit_mode">
+<code class="descname">edit_mode</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/plugin.html#Plugin.edit_mode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#plugin.Plugin.edit_mode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Puts frame in edit state.</p>
+<p>Implementation of this function should enable user to change
+location of frame using mouse input, concretely mouse motion
+with left mouse button pressed (&lt;B1-Motion&gt;).
+Yellow background highlight should be displayed around frame
+which is in edit state.</p>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-recognizertraining"></span><dl class="function">
+<dt id="recognizertraining.train_recognizer">
+<code class="descclassname">recognizertraining.</code><code class="descname">train_recognizer</code><span class="sig-paren">(</span><em>user_id</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/recognizertraining.html#train_recognizer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#recognizertraining.train_recognizer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads training data from disk and trains face recognizer.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>user_id</strong> – integer to be used as a training label. This is the
+number that will be returned by recognizer.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code> – if yml file containing recognizer data was not
+found.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<span class="target" id="module-smartcalendar"></span><dl class="class">
+<dt id="smartcalendar.Calendar">
+<em class="property">class </em><code class="descclassname">smartcalendar.</code><code class="descname">Calendar</code><span class="sig-paren">(</span><em>master</em>, <em>controller</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/smartcalendar.html#Calendar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smartcalendar.Calendar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Displays google calendar events when face is recognized.</p>
+<p>This class inherits from tkinter’s Frame class and abstract Plugin
+class. Google Calendar API is used to source events. Calendar will
+be displayed only when known face is recognized and that person
+logged in to Google Calendar at startup.</p>
+<dl class="method">
+<dt id="smartcalendar.Calendar.edit_mode">
+<code class="descname">edit_mode</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/smartcalendar.html#Calendar.edit_mode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smartcalendar.Calendar.edit_mode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Switches edit_mode on/off.</p>
+<p>When switching edit mode on this function first makes mouse
+cursor visible when on top of this module and makes background
+highlight visible by changing it’s color to yellow, then
+appropriate event handlers are bind to left mouse button click
+(&lt;Button-1&gt;) and mouse motion with left mouse button pressed
+(&lt;B1-Motion&gt;) for every component.</p>
+<p>When switching edit mode off cursor is first hidden, highlight
+made invisible by changing it’s color to black, then mouse
+input event handlers are unbound from all components.</p>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-smartmirror"></span><dl class="class">
+<dt id="smartmirror.SmartMirror">
+<em class="property">class </em><code class="descclassname">smartmirror.</code><code class="descname">SmartMirror</code><a class="reference internal" href="_modules/smartmirror.html#SmartMirror"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smartmirror.SmartMirror" title="Permalink to this definition">¶</a></dt>
+<dd><p>Main window of the application.</p>
+<p>SmartMirror inherits from tkinter’s Tk class. It manages ‘main’
+frames and provides public functions needed to control the
+application from within these frames.
+Once start_smartmirror() is called application has to be closed
+using Escape key.</p>
+<dl class="method">
+<dt id="smartmirror.SmartMirror.get_face_recognizer">
+<code class="descname">get_face_recognizer</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/smartmirror.html#SmartMirror.get_face_recognizer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smartmirror.SmartMirror.get_face_recognizer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return FaceRecognizer object.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="smartmirror.SmartMirror.get_framename_coords_dict">
+<code class="descname">get_framename_coords_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/smartmirror.html#SmartMirror.get_framename_coords_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smartmirror.SmartMirror.get_framename_coords_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns dictionary mapping frames’ names to coordinates.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="smartmirror.SmartMirror.get_id_credentials_dict">
+<code class="descname">get_id_credentials_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/smartmirror.html#SmartMirror.get_id_credentials_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smartmirror.SmartMirror.get_id_credentials_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return dictionary mapping user id to calendar credentials.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="smartmirror.SmartMirror.start_smartmirror">
+<code class="descname">start_smartmirror</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/smartmirror.html#SmartMirror.start_smartmirror"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#smartmirror.SmartMirror.start_smartmirror" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates and displays mirror display frame.</p>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-trainingdata"></span><dl class="class">
+<dt id="trainingdata.TrainingData">
+<em class="property">class </em><code class="descclassname">trainingdata.</code><code class="descname">TrainingData</code><a class="reference internal" href="_modules/trainingdata.html#TrainingData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trainingdata.TrainingData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Asynchronously collects training data for face recognizer.</p>
+<p>TrainingData uses multiprocessing module to asynchronously collect
+data meant for training of opencv’s face recognition algorithms.
+Mentioned data is in the form of grayscale pictures containing
+only facial region.
+Only one ‘collector’ can be run at the same time.</p>
+<dl class="method">
+<dt id="trainingdata.TrainingData.collect_data">
+<code class="descname">collect_data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/trainingdata.html#TrainingData.collect_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trainingdata.TrainingData.collect_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Starts collecting training data.</p>
+<p>Only one ‘collector’ can be run at the same time.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">0 if TrainingData successfully started collecting data or
+1 if training data is already being collected.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="trainingdata.TrainingData.is_running">
+<code class="descname">is_running</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/trainingdata.html#TrainingData.is_running"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trainingdata.TrainingData.is_running" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks whether data is being collected.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">bool value</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="trainingdata.TrainingData.stop_collector">
+<code class="descname">stop_collector</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/trainingdata.html#TrainingData.stop_collector"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trainingdata.TrainingData.stop_collector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stops data collection process.</p>
+<p>This function stops collector process.
+Even if process was not running this function will attempt to
+join it.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">0 if process was running and successfully stopped or -1 if
+process was not running.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="trainingdata.collect_data">
+<code class="descclassname">trainingdata.</code><code class="descname">collect_data</code><span class="sig-paren">(</span><em>running_flag</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/trainingdata.html#collect_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trainingdata.collect_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Collects data for face recognizer training.</p>
+<p>This function uses haar cascade face detection algorithm to snap
+30 grayscale photos of user’s face, cropped to contain only facial
+region and saves them to disk. Photos formatted this way are ready
+to be used to train opencv’s face recognition algorithms.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>running_flag</strong> – flag for stopping this function early. Function
+is running while this flag is set.
+Type multiprocessing.Event is assumed.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code> – if either camera was not detected or cascade file
+was not found.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<span class="target" id="module-trainrecognizerpage"></span><dl class="class">
+<dt id="trainrecognizerpage.TrainRecognizerPage">
+<em class="property">class </em><code class="descclassname">trainrecognizerpage.</code><code class="descname">TrainRecognizerPage</code><span class="sig-paren">(</span><em>master</em>, <em>controller</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/trainrecognizerpage.html#TrainRecognizerPage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#trainrecognizerpage.TrainRecognizerPage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Menu page with face recognition training interface.</p>
+<p>TrainRecognizerPage inherits from tkinter’s frame page. It stores
+all widgets inside a grid geometry manager and implements
+functions bind to these widgets. It’s purpose is to provide end
+user with interface to collect training data and train face
+recognition module with his/hers face.</p>
+</dd></dl>
+
+<span class="target" id="module-weather"></span><dl class="class">
+<dt id="weather.Weather">
+<em class="property">class </em><code class="descclassname">weather.</code><code class="descname">Weather</code><span class="sig-paren">(</span><em>master</em>, <em>controller</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/weather.html#Weather"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#weather.Weather" title="Permalink to this definition">¶</a></dt>
+<dd><p>Weather module class.</p>
+<p>Weather class inherits from tkinter’s Frame class and abstract
+Plugin class. This module displays weather conditions as an icon
+and current temperature in Fahrenheit or Celsius scale depending
+on user’s preference.</p>
+<p>Ipinfo api is used for finding current location and weather
+underground api is used for polling weather information.</p>
+<dl class="method">
+<dt id="weather.Weather.edit_mode">
+<code class="descname">edit_mode</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/weather.html#Weather.edit_mode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#weather.Weather.edit_mode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Switches edit_mode on/off.</p>
+<p>When switching edit mode on this function first makes mouse
+cursor visible when on top of this module and makes background
+highlight visible by changing it’s color to yellow, then
+appropriate event handlers are bind to left mouse button click
+(&lt;Button-1&gt;) and mouse motion with left mouse button pressed
+(&lt;B1-Motion&gt;) for every component.</p>
+<p>When switching edit mode off cursor is first hidden, highlight
+made invisible by changing it’s color to black, then mouse
+input event handlers are unbound from all components.</p>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-weatherapi"></span><dl class="class">
+<dt id="weatherapi.WeatherApiWrapper">
+<em class="property">class </em><code class="descclassname">weatherapi.</code><code class="descname">WeatherApiWrapper</code><a class="reference internal" href="_modules/weatherapi.html#WeatherApiWrapper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#weatherapi.WeatherApiWrapper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wunderground api wrapper for performing asynchronous requests.</p>
+<p>WeatherApiWrapper uses multiprocessing module to handle
+asynchronous wunderground api requests. Request can be started by
+calling call_weather_api() and response converted to json file can
+be collected with get_weather().
+Only one request can be processed at the same time for each
+instance of WeatherApiWrapper.</p>
+<dl class="method">
+<dt id="weatherapi.WeatherApiWrapper.call_weather_api">
+<code class="descname">call_weather_api</code><span class="sig-paren">(</span><em>country</em>, <em>region</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/weatherapi.html#WeatherApiWrapper.call_weather_api"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#weatherapi.WeatherApiWrapper.call_weather_api" title="Permalink to this definition">¶</a></dt>
+<dd><p>Starts asynchronous api request.</p>
+<p>Only one request can be processed at the same time for each
+instance of WeatherApiWrapper.
+To obtain results get_weather() has to be called.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>country</strong> – country of interest. Either abbreviation or full
+english name.</li>
+<li><strong>region</strong> – region of interest e.g city/province.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">0 if weather api request was successfully made or 1 if api
+request is already processing.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code> – If impossible behaviour occurred.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="weatherapi.WeatherApiWrapper.get_weather">
+<code class="descname">get_weather</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/weatherapi.html#WeatherApiWrapper.get_weather"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#weatherapi.WeatherApiWrapper.get_weather" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return request results and according return code.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="docutils">
+<dt><em>returncode</em> –     -1 if no request was made with call_weather_api</dt>
+<dd>function, 0 if weather information was successfully
+returned or 1 if api request is still being processed.</dd>
+<dt>weather_json: json file containing weather information for</dt>
+<dd>requested region or None (see returncode = -1 or 1).</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="weatherapi.weather_api_request">
+<code class="descclassname">weatherapi.</code><code class="descname">weather_api_request</code><span class="sig-paren">(</span><em>input_queue</em>, <em>output_queue</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/weatherapi.html#weather_api_request"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#weatherapi.weather_api_request" title="Permalink to this definition">¶</a></dt>
+<dd><p>Callback function performing weather information requests.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>input_queue</strong> – queue for passing city and region arguments for
+api request. These arguments should be passed in one
+tuple.</li>
+<li><strong>output_queue</strong> – queue for passing request results.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code> – if no arguments were passed through the input
+queue.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Welcome to SmartMirror’s documentation</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/code.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to SmartMirror’s documentation"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">SmartMirror 1.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Bartosz Bialoskorski.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.2.
+    </div>
+  </body>
+</html>

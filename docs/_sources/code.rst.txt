@@ -1,0 +1,37 @@
+SmartMirror's Documentation
+============================
+
+.. automodule:: calendarapi
+   :members:
+.. automodule:: calendarauth
+   :members:
+.. automodule:: calendarloginpage
+   :members:
+.. automodule:: clock
+   :members:
+.. automodule:: facerecognition
+   :members:
+.. automodule:: facerecognizer
+   :members:
+.. automodule:: greeter
+   :members:
+.. automodule:: menu
+   :members:
+.. automodule:: mirrordisplay
+   :members:
+.. automodule:: plugin
+   :members:
+.. automodule:: recognizertraining
+   :members:
+.. automodule:: smartcalendar
+   :members:
+.. automodule:: smartmirror
+   :members:
+.. automodule:: trainingdata
+   :members:
+.. automodule:: trainrecognizerpage
+   :members:
+.. automodule:: weather
+   :members:
+.. automodule:: weatherapi
+   :members:

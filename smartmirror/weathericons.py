@@ -4,7 +4,7 @@ import os
 
 
 def load_weather_icons():
-    # FIXME
+
     icon_dict = {}
 
     image_dict = {}
